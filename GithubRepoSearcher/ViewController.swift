@@ -14,6 +14,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // Data model: These strings will be the data for the table view cells
     let repos: [String] = ["Repo1", "Repo2", "Repo3", "Repo4", "Repo5"]
+    var newRepos: [RepoModel] = []
     var arrRes = [[AnyHashable:AnyHashable]]() //Array of dictionary
     
     // cell reuse id (cells that scroll out of view can be reused)
@@ -25,7 +26,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         let repositoryService = RepositoryService()
-        repositoryService.getData()
+        var test = repositoryService.getData()
+        print(test)
         
         
         // Register the table view cell class and its reuse id
@@ -39,9 +41,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         repoTableview.dataSource = self
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        let repositoryService = RepositoryService()
+        var test = repositoryService.getData()
+        print(test)
+    }
+    
     // number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.repos.count
+        return self.newRepos.count
     }
     
     // create a cell for each table view row
@@ -51,7 +59,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell:UITableViewCell = self.repoTableview.dequeueReusableCell(withIdentifier: cellReuseIdentifier) as UITableViewCell!
         
         // set the text from the data model
-        cell.textLabel?.text = self.repos[indexPath.row]
+        //cell.textLabel?.text = self.repos[indexPath.row]
+        cell.textLabel?.text = self.newRepos[indexPath.row].name
+        
         
         return cell
     }
